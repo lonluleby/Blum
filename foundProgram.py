@@ -31,7 +31,8 @@ def locate_image_on_screen(image_path, confidence=0.8, timeout=8):
                 # 返回图像区域的坐标 (left, top, width, height)
                 return position
         except pyautogui.ImageNotFoundException:
-            print(f"未找到图像 {image_path}，继续重试...")
+            continue
+            # print(f"未找到图像 {image_path}，继续重试...")
 
         time.sleep(1)  # 每半秒检查一次
 

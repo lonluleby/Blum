@@ -23,33 +23,33 @@ blumBlum_path = "Blum/blum_Blum.png"
 blumFarming_path = "Blum/blum_Farming.png"
 
 def main():
-    result = foundProgram.locate_image_on_screen(blumProgramImage_path)
+    result = foundProgram.locate_image_on_screen(blumProgramImage_path,0.8,10)
     if result:
         clickPosition.click_at_position(result)
         print(f"找到blum小程序")
     else:
         print("没找到blum小程序")
     time.sleep(2)
-    result =foundProgram.locate_image_on_screen(blumLaunch_path)
+    result =foundProgram.locate_image_on_screen(blumLaunch_path,0.8,3)
     if result:
         clickPosition.click_at_position(result)
         print(f"找到blum小程序登录按钮")
     else:
         print("没找到blum小程序登录按钮")
     time.sleep(3)
-    result =foundProgram.locate_image_on_screen(blumService_path)
+    result =foundProgram.locate_image_on_screen(blumService_path,0.8,3)
     if result:
         clickPosition.click_at_position(result)
         print(f"找到blum服务确认按钮")
     else:
         print("没找到blum服务确认按钮")
     time.sleep(15)
-    result =foundProgram.locate_image_on_screen(blumBlum_path)
-    if result:
-        clickPosition.click_at_position(result)
-        print(f"找到blum服务确认按钮")
-    else:
-        print("没找到blum服务确认按钮")
+    # result =foundProgram.locate_image_on_screen(blumBlum_path)
+    # if result:
+    #     clickPosition.click_at_position(result)
+    #     print(f"找到blum服务确认按钮")
+    # else:
+    #     print("没找到blum服务确认按钮")
     moveToLeft.move_window_to_position(0,0)
     moveTegram.move_window_to_position(1000,0)
 
@@ -73,21 +73,21 @@ def main():
                 print("重新打开小程序")
                 time.sleep(15)  # 暂停 1 秒，避免过于频繁地调用，减少系统资源消耗
     time.sleep(3)
-    result =foundProgram.locate_image_on_screen(blumContinue_path)
+    result =foundProgram.locate_image_on_screen(blumContinue_path,0.8,3)
     if result:
         clickPosition.click_at_position(result)
         print(f"找到blum每日奖励确认按钮")
     else:
         print("没找到blum每日奖励确认按钮")
     time.sleep(3)
-    result =foundProgram.locate_image_on_screen(blumClaim_path)
+    result =foundProgram.locate_image_on_screen(blumClaim_path,0.8,3)
     if result:
         clickPosition.click_at_position(result)
         print(f"找到blum收获按钮")
     else:
         print("没找到blum收获确认按钮")
     time.sleep(3)
-    result =foundProgram.locate_image_on_screen(blumStartFarming_path)
+    result =foundProgram.locate_image_on_screen(blumStartFarming_path,0.8,3)
     if result:
         clickPosition.click_at_position(result)
         print(f"找到blum开始按钮")
@@ -95,7 +95,7 @@ def main():
         print("没找到blum开始按钮")
     time.sleep(3)
     # 获取当前鼠标位置
-    result =foundProgram.locate_image_on_screen(blumFarming_path)
+    result =foundProgram.locate_image_on_screen(blumFarming_path,0.8,3)
     if result:
         clickPosition.click_at_position(result)
     else:

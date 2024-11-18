@@ -43,25 +43,51 @@ def run_aaa_exe_in_subfolders(parent_folder):
             else:
                 print(f"Telegram.exe not found in {subfolder_path}")
 
-def close_process(process, timeout=5):
+
+import time
+import os
+import signal
+
+
+def close_process(process, timeout=60):
     """检测进程是否关闭，如果没有关闭，尝试终止它"""
     start_time = time.time()
+
     while time.time() - start_time < timeout:
         if process.poll() is not None:
             # 如果进程已经退出
             print("Process has already exited.")
             return True
+
         print("Process is still running, attempting to terminate...")
         try:
             process.terminate()  # 尝试终止进程
             time.sleep(1)  # 给进程时间终止
+
             if process.poll() is not None:
                 print("Process terminated successfully.")
                 return True
+
+            # 如果 terminate() 失败，则尝试 kill() 强制终止
+            print("Terminate failed, attempting to force kill the process.")
+            process.kill()  # 强制终止进程
+            time.sleep(1)  # 再给进程时间终止
+
+            if process.poll() is not None:
+                print("Process killed successfully.")
+                return True
+
         except Exception as e:
-            print(f"Error trying to terminate process: {e}")
+            print(f"Error trying to terminate/kill process: {e}")
             return False
+
     print("Timeout reached. Process did not terminate.")
+    # 强制杀死进程，确保在超时后进程最终终止
+    if process.poll() is None:  # 如果进程还活着
+        print("Forcing the process to terminate.")
+        process.kill()
+        return False
+
     return False
 
 
