@@ -2,7 +2,7 @@ import pyautogui
 import time
 import os
 import clickPosition
-import foundBlumProgram
+import foundProgram
 
 blumProgramImage_path = "Blum/blum.png"  # 替换为你自己的图像路径
 blumLaunch_path="Blum/blum_launch.png"
@@ -16,14 +16,14 @@ blumReload_path="Blum/blum_Reload.png"
 
 
 def main():
-    result = foundBlumProgram.locate_image_on_screen(blumProgramImage_path)
+    result = foundProgram.locate_image_on_screen(blumProgramImage_path)
     if result:
         clickPosition.click_at_position(result)
         print(f"找到blum小程序")
     else:
         print("没找到blum小程序")
     time.sleep(2)
-    result =foundBlumProgram.locate_image_on_screen(blumLaunch_path)
+    result =foundProgram.locate_image_on_screen(blumLaunch_path)
     if result:
         clickPosition.click_at_position(result)
         print(f"找到blum小程序登录按钮")
@@ -32,7 +32,7 @@ def main():
 
 
     time.sleep(3)
-    result =foundBlumProgram.locate_image_on_screen(blumService_path)
+    result =foundProgram.locate_image_on_screen(blumService_path)
     if result:
         clickPosition.click_at_position(result)
         print(f"找到blum服务确认按钮")
@@ -41,39 +41,39 @@ def main():
     time.sleep(15)
     while True:
         # 查找B
-        result = foundBlumProgram.locate_image_on_screen(blumHomepath)
+        result = foundProgram.locate_image_on_screen(blumHomepath)
 
         if result:
             break  # 找到后退出循环
         else:
             # 如果没有找到
-            result = foundBlumProgram.locate_image_on_screen(blumContinue_path)
+            result = foundProgram.locate_image_on_screen(blumContinue_path)
             if result:
                 clickPosition.click_at_position(result)
                 break
             else:
-                result = foundBlumProgram.locate_image_on_screen(blum3Point_path)
+                result = foundProgram.locate_image_on_screen(blum3Point_path)
                 clickPosition.click_at_position(result)
-                result = foundBlumProgram.locate_image_on_screen(blumReload_path)
+                result = foundProgram.locate_image_on_screen(blumReload_path)
                 clickPosition.click_at_position(result)
                 print("重新打开小程序")
                 time.sleep(15)  # 暂停 1 秒，避免过于频繁地调用，减少系统资源消耗
     time.sleep(3)
-    result =foundBlumProgram.locate_image_on_screen(blumContinue_path)
+    result =foundProgram.locate_image_on_screen(blumContinue_path)
     if result:
         clickPosition.click_at_position(result)
         print(f"找到blum每日奖励确认按钮")
     else:
         print("没找到blum每日奖励确认按钮")
     time.sleep(3)
-    result =foundBlumProgram.locate_image_on_screen(blumClaim_path)
+    result =foundProgram.locate_image_on_screen(blumClaim_path)
     if result:
         clickPosition.click_at_position(result)
         print(f"找到blum收获按钮")
     else:
         print("没找到blum收获确认按钮")
     time.sleep(3)
-    result =foundBlumProgram.locate_image_on_screen(blumStartFarming_path)
+    result =foundProgram.locate_image_on_screen(blumStartFarming_path)
     if result:
         clickPosition.click_at_position(result)
         print(f"找到blum开始按钮")

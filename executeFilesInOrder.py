@@ -1,7 +1,7 @@
 import os
 import subprocess
 import time
-import foundBlumProgram
+import foundProgram
 import autoFarm
 
 

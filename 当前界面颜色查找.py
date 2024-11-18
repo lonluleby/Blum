@@ -36,8 +36,8 @@ def find_color_in_range_and_move(min_rgb, max_rgb):
         print("No color found in the specified range.")
 
 # 设置颜色范围
-min_rgb = (128, 220, 0)  # RGB最小值
-max_rgb = (223, 255, 116)  # RGB最大值
+min_rgb = (98, 159, 212)  # RGB最小值
+max_rgb = (102, 164, 215)  # RGB最大值
 
 # 调用函数
 find_color_in_range_and_move(min_rgb, max_rgb)

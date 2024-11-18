@@ -2,7 +2,7 @@ import pyautogui
 import time
 import os
 import clickPosition
-import foundBlumProgram
+import foundProgram
 
 blumProgramImage_path = "Blum/blum.png"  # 替换为你自己的图像路径
 

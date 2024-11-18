@@ -3,25 +3,29 @@ import numpy as np
 from PIL import Image
 import time
 import threading
-import foundPawsProgram
-
+import foundProgram
+import clickPosition
 # 定义常量和配置
-LEFT, TOP, RIGHT, BOTTOM = 0, 0, 450, 800 # 检测区域
-# COLOR1_MIN = np.array([149, 218, 230])  # 冰  公司电脑
-# COLOR1_MAX = np.array([153, 220, 233])
-COLOR1_MIN = np.array([83, 157, 217])  # 冰
-COLOR1_MAX = np.array([87, 160, 220])
-# COLOR2_MIN = np.array([167, 236, 89])  # 雪花 公司电脑
-# COLOR2_MAX = np.array([237, 252, 192])
-COLOR2_MIN = np.array([128, 220, 0])  # 雪花
-COLOR2_MAX = np.array([223, 255, 116])
-# COLOR3_MIN = np.array([53, 131, 149])  # 冰冻时间 公司电脑
-# COLOR3_MAX = np.array([64, 133, 156])
-COLOR3_MIN = np.array([9, 124, 145])  # 冰冻时间
-COLOR3_MAX = np.array([27, 126, 147])
-CLICK_OFFSETS = [0, 80, 100]  # 点击偏移量
+# LEFT, TOP, RIGHT, BOTTOM = 0, 0, 450, 800 # 检测区域
+LEFT, TOP, RIGHT, BOTTOM =0, 0, 760, 1200  #公司电脑
+COLOR1_MIN = np.array([98, 159, 212])  # 冰  公司电脑
+COLOR1_MAX = np.array([102, 164, 215])
+# COLOR1_MIN = np.array([83, 157, 217])  # 冰
+# COLOR1_MAX = np.array([87, 160, 220])
+COLOR2_MIN = np.array([167, 236, 89])  # 雪花 公司电脑
+COLOR2_MAX = np.array([237, 252, 192])
+# COLOR2_MIN = np.array([128, 220, 0])  # 雪花
+# COLOR2_MAX = np.array([223, 255, 116])
+COLOR3_MIN = np.array([53, 131, 149])  # 冰冻时间 公司电脑
+COLOR3_MAX = np.array([64, 133, 156])
+# COLOR3_MIN = np.array([9, 124, 145])  # 冰冻时间
+# COLOR3_MAX = np.array([27, 126, 147])
+CLICK_OFFSETS = [80, 100]  # 点击偏移量
 
 blumRewards_path = "Blum/blum_Rewards.png"
+
+
+mouse_lock = threading.Lock()
 
 def screenshot_and_find_color():
     """优化后的截图和颜色查找函数"""
@@ -65,29 +69,38 @@ def screenshot_and_find_color():
     return False
 
 
-def concurrent_screenshots():
+def concurrent_screenshots(stop_event):
     """并发执行截图和查找颜色"""
+    while not stop_event.is_set():
+        screenshot_and_find_color()
+
+def gameOver(stop_event):
     while True:
-        result = foundPawsProgram.locate_image_on_screen(blumRewards_path)
+        result = foundProgram.locate_image_on_screen(blumRewards_path,0.8,100)
         if result:
+            stop_event.set()
             break
-        else:
-            screenshot_and_find_color()
+
 
 
 def main():
     """主函数，启动两个线程实现并发"""
     # 创建两个线程并启动
-    thread1 = threading.Thread(target=concurrent_screenshots)
-    thread2 = threading.Thread(target=concurrent_screenshots)
-    thread3 = threading.Thread(target=concurrent_screenshots)
+    stop_event = threading.Event()
+
+    thread1 = threading.Thread(target=concurrent_screenshots, args=(stop_event,))
+    thread2 = threading.Thread(target=concurrent_screenshots, args=(stop_event,))
+    thread3 = threading.Thread(target=concurrent_screenshots, args=(stop_event,))
+    thread4 = threading.Thread(target=gameOver, args=(stop_event,))
     thread1.start()
     thread2.start()
     thread3.start()
+    thread4.start()
     # 等待线程执行完成
     thread1.join()
     thread2.join()
     thread3.join()
+    thread4.join()
 
 if __name__ == "__main__":
     main()
