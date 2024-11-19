@@ -49,7 +49,7 @@ def click_Start():
 def is_existence(*earnClaim_paths,temp_image):
     # 遍历所有路径
     for path in earnClaim_paths:
-        result = myPublicMethod.locate_image_in_image(temp_image, path, 0.99)
+        result = myPublicMethod.locate_image_in_image(path, temp_image, 0.99)
         # result = foundProgram.locate_image_on_screen(path, 0.9, 3)
         if result:
             # 如果某个路径找到图像，返回 True
