@@ -124,13 +124,13 @@ def locate_image_in_image(image1, image2, confidence=0.8, timeout=3):
     start_time = time.time()
 
     while time.time() - start_time < timeout:
-        # try:
-        #     # 使用 locate 方法在 image1 中查找 image2
-        position = pyautogui.locate(image2, image1, confidence=confidence)
-        if position:
-            return position
-        # except pyautogui.ImageNotFoundException:
-        #     print(f"未找到能做的任务，继续重试...")
+        try:
+            # 使用 locate 方法在 image1 中查找 image2
+            position = pyautogui.locate(image2, image1, confidence=confidence)
+            if position:
+                return position
+        except pyautogui.ImageNotFoundException:
+            print(f"未找到能做的任务，继续重试...")
 
         time.sleep(1)  # 每秒检查一次
 
