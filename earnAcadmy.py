@@ -19,7 +19,7 @@ earnStart_path = "Earn/earn_Start.png"
 earnVerify2_path = "Earn/earn_Verify2.png"
 
 image_verify_path = "earnVerify"
-
+earnOutStart_path = "Earn/earn_OutStart.png"
 
 
 def write_keyword(keyword):
@@ -38,21 +38,56 @@ def find_images_in_screen(image_verify_path):
     # 获取文件夹中的所有图片文件
     image_verify_paths = glob(os.path.join(image_verify_path, '*.*'))
 
-    myPublicMethod.click_Start()
+    #排除干扰项
+    result = foundProgram.locate_image_on_screen(earnOutStart_path, 0.99)
+    if result:
+        while True:
+            # 获取第一次匹配的区域
+            left, top, width, height = result
+            # 获取整个屏幕的截图
+            screenshot = pyautogui.screenshot()
+            # 将第一次匹配的区域涂白
+            modified_screenshot = myPublicMethod.remove_area_from_image(screenshot, (left, top, width, height))
+            # 保存修改后的截图用于调试
+            modified_screenshot.save("modified_screenshot.png")
+            # 将修改后的图片保存到临时文件并作为新的图像进行第二次匹配
+            modified_screenshot.save("temp_image.png")
+            # 第二次匹配：使用涂白后的图片
+            result = myPublicMethod.locate_image_in_image("temp_image.png",earnStart_path, 0.99)
+            if result:
+                time.sleep(1)
+                print("9999")
+                myPublicMethod.click_Start()
+            else:
+                break
+    else:
+        time.sleep(1)
+        print("8888")
+        myPublicMethod.click_Start()
 
     myPublicMethod.staticCheck(screen_region)
 
-    for image_path in image_verify_paths:
-        # 加载图片
-        result = foundProgram.locate_image_on_screen(image_path, 0.99,1)
-        if result:
-            keyword = os.path.splitext(os.path.basename(image_path))[0]
-            clickPosition.click_at_position_offset(result, 300, 0)
-            time.sleep(3)
-            write_keyword(keyword)
+    if closeBrowser.close_all_browser_processes("chrom"):
+        print("浏览器已关闭")
+    else:
+        print("浏览器没关")
 
+
+    for image_path in image_verify_paths:
+        result = foundProgram.locate_image_on_screen(earnVerify2_path, 0.99, 3)
+        if result:
+            # 加载图片
+            result = foundProgram.locate_image_on_screen(image_path, 0.99,1)
+            if result:
+                keyword = os.path.splitext(os.path.basename(image_path))[0]
+                clickPosition.click_at_position_offset(result, 300, 0)
+                time.sleep(3)
+                write_keyword(keyword)
+
+            else:
+                print("当前界面无未输入keywords的任务")
         else:
-            print("当前界面无未输入keywords的任务")
+            break
 
     myPublicMethod.staticCheck(screen_region)
 
@@ -68,14 +103,28 @@ def toDo():
         #将所有已做完任务Claim
         myPublicMethod.click_Claim(screen_region)
 
-        if myPublicMethod.is_existence(earnStart_path,earnVerify2_path,earnClaim_path):
-            result = foundProgram.locate_image_on_screen(earnStart_path, 0.9, 3)
+        # 排除干扰项
+        result = foundProgram.locate_image_on_screen(earnOutStart_path, 0.99)
+        if result:
+            # 获取第一次匹配的区域
+            left, top, width, height = result
+            # 获取整个屏幕的截图
+            screenshot = pyautogui.screenshot()
+            # 将第一次匹配的区域涂白
+            modified_screenshot = myPublicMethod.remove_area_from_image(screenshot, (left, top, width, height))
+            # 保存修改后的截图用于调试
+            modified_screenshot.save("modified_screenshot.png")
+            # 将修改后的图片保存到临时文件并作为新的图像进行第二次匹配
+            modified_screenshot.save("temp_image.png")
+            # 第二次匹配：使用涂白后的图片
+            if myPublicMethod.is_existence(earnVerify2_path, earnClaim_path, temp_image="temp_image.png"):
+                continue
+            else:
+                break
 
-        else:
-            break
 
 
 
 if __name__ == "__main__":
-    time.sleep(2)
+
     toDo()

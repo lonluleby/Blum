@@ -8,21 +8,30 @@ import cv2
 import foundProgram
 import clickPosition
 import closeBrowser
+import moveToLeft
 import myPublicMethod
-
+from PIL import Image, ImageDraw
 
 
 earnClaim_path = "Earn/earn_Claim.png"
 
 earnStart_path = "Earn/earn_Start.png"
-
+earnEnd_path = "Earn/earn_End.png"
 
 def click_Claim(screen_region):
     while True:
         result = foundProgram.locate_image_on_screen(earnClaim_path,0.9,3)
         if result:
-            clickPosition.click_at_position(result)
-            staticCheck(screen_region)
+            while True:
+                result2 = foundProgram.locate_image_on_screen(earnEnd_path, 0.99, 3)
+                if result2:
+                    time.sleep(1)
+                else:
+                    time.sleep(1)
+                    staticCheck(screen_region)
+                    result = foundProgram.locate_image_on_screen(earnClaim_path, 0.9, 3)
+                    clickPosition.click_at_position(result)
+                    break
         else:
             break
 
@@ -31,15 +40,17 @@ def click_Start():
         result = foundProgram.locate_image_on_screen(earnStart_path,0.9,3)
         if result:
             clickPosition.click_at_position(result)
-            time.sleep(8)
-            closeBrowser.colse_Browser()
+            time.sleep(1)
+            moveToLeft.move_window_to_position(0,0)
+            break
         else:
             break
 
-def is_existence(*earnClaim_paths):
+def is_existence(*earnClaim_paths,temp_image):
     # 遍历所有路径
     for path in earnClaim_paths:
-        result = foundProgram.locate_image_on_screen(path, 0.9, 3)
+        result = myPublicMethod.locate_image_in_image(temp_image, path, 0.99)
+        # result = foundProgram.locate_image_on_screen(path, 0.9, 3)
         if result:
             # 如果某个路径找到图像，返回 True
             return True
@@ -88,6 +99,40 @@ def staticCheck(screen_region):
         # 更新上一次截图
         prev_screenshot = curr_screenshot
 
-# # 示例用法
-# if __name__ == "__main__":
-#     scroll_until_bottom()
+
+
+def remove_area_from_image(image, region):
+    """
+    在图像上涂白指定区域
+    region = (left, top, width, height)
+    """
+    left, top, width, height = region
+    draw = ImageDraw.Draw(image)
+    # 使用白色填充区域
+    draw.rectangle([left, top, left + width, top + height], fill="white")
+    return image
+
+def locate_image_in_image(image1, image2, confidence=0.8, timeout=3):
+    """
+    在图片1中查找图片2，返回匹配区域的坐标。
+    :param image1: 目标图像，作为查找的图片（图片1）
+    :param image2: 要查找的图像（图片2）
+    :param confidence: 匹配精度，0.0 到 1.0，默认为 0.8
+    :param timeout: 查找超时时间（秒），默认为 8 秒
+    :return: 返回匹配的坐标（left, top, width, height），如果没有找到返回 None
+    """
+    start_time = time.time()
+
+    while time.time() - start_time < timeout:
+        # try:
+        #     # 使用 locate 方法在 image1 中查找 image2
+        position = pyautogui.locate(image2, image1, confidence=confidence)
+        if position:
+            return position
+        # except pyautogui.ImageNotFoundException:
+        #     print(f"未找到能做的任务，继续重试...")
+
+        time.sleep(1)  # 每秒检查一次
+
+    print(f"未在 {timeout} 秒内找到图像。")
+    return None

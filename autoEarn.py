@@ -46,6 +46,7 @@ def main():
         current_x, current_y = pyautogui.position()
         # 将鼠标向下移动100个像素
         pyautogui.moveTo(current_x, current_y + 100)
+        pyautogui.scroll(-250)
     time.sleep(2)
 
     earnAcadmy.toDo()

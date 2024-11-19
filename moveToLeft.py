@@ -11,6 +11,8 @@ def move_window_to_position(x,y):
     if windows:
         window = windows[0]
         # 移动窗口到指定的位置
+        window.restore()  # 恢复窗口（如果是最小化状态）
+        window.activate()  # 激活窗口
         window.moveTo(x, y)
 
     else:
