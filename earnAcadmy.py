@@ -8,6 +8,7 @@ import cv2
 import foundProgram
 import clickPosition
 import closeBrowser
+import moveToLeft
 import myPublicMethod
 
 screen_region = (0, 0, 760, 1300)
@@ -17,7 +18,7 @@ earnVerify_path = "Earn/earn_Verify.png"
 earnClaim_path = "Earn/earn_Claim.png"
 earnStart_path = "Earn/earn_Start.png"
 earnVerify2_path = "Earn/earn_Verify2.png"
-
+earnEnd_path = "Earn/earn_End.png"
 image_verify_path = "earnVerify"
 earnOutStart_path = "Earn/earn_OutStart.png"
 
@@ -40,24 +41,28 @@ def find_images_in_screen(image_verify_path):
 
     #排除干扰项
     result = foundProgram.locate_image_on_screen(earnOutStart_path, 0.99)
+    # 获取第一次匹配的区域
+    left, top, width, height = result
+    i=0
     if result:
         while True:
-            # 获取第一次匹配的区域
-            left, top, width, height = result
+
             # 获取整个屏幕的截图
             screenshot = pyautogui.screenshot()
             # 将第一次匹配的区域涂白
             modified_screenshot = myPublicMethod.remove_area_from_image(screenshot, (left, top, width, height))
             # 保存修改后的截图用于调试
-            modified_screenshot.save("modified_screenshot.png")
+            modified_screenshot.save(str(i)+"modified_screenshot.png")
             # 将修改后的图片保存到临时文件并作为新的图像进行第二次匹配
             modified_screenshot.save("temp_image.png")
+            i=i+1
             # 第二次匹配：使用涂白后的图片
             result = myPublicMethod.locate_image_in_image("temp_image.png",earnStart_path, 0.99)
             if result:
-                time.sleep(1)
                 print("9999")
-                myPublicMethod.click_Start()
+                clickPosition.click_at_position(result)
+                moveToLeft.move_window_to_position(0,0)
+                myPublicMethod.staticCheck(screen_region)
             else:
                 break
     else:
@@ -103,6 +108,13 @@ def toDo():
         #将所有已做完任务Claim
         myPublicMethod.click_Claim(screen_region)
 
+        while True:
+            result = foundProgram.locate_image_on_screen(earnEnd_path, 0.99, 3)
+            if result:
+                time.sleep(1)
+            else:
+                break
+
         # 排除干扰项
         result = foundProgram.locate_image_on_screen(earnOutStart_path, 0.99)
         if result:
@@ -117,9 +129,10 @@ def toDo():
             # 将修改后的图片保存到临时文件并作为新的图像进行第二次匹配
             modified_screenshot.save("temp_image.png")
             # 第二次匹配：使用涂白后的图片
-            if myPublicMethod.is_existence(earnVerify2_path, earnClaim_path, temp_image="temp_image.png"):
-                continue
+            if myPublicMethod.is_existence(earnVerify2_path, earnClaim_path,earnStart_path, temp_image="temp_image.png"):
+                print("还有任务没做完")
             else:
+                print("任务已经全部做完")
                 break
 
 
