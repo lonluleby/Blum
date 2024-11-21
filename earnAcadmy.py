@@ -42,9 +42,8 @@ def find_images_in_screen(image_verify_path):
     #排除干扰项
     result = foundProgram.locate_image_on_screen(earnOutStart_path, 0.99)
     # 获取第一次匹配的区域
-    left, top, width, height = result
-    i=0
     if result:
+        left, top, width, height = result
         while True:
 
             # 获取整个屏幕的截图
@@ -61,6 +60,7 @@ def find_images_in_screen(image_verify_path):
             if result:
                 print("9999")
                 clickPosition.click_at_position(result)
+                time.sleep(1)
                 moveToLeft.move_window_to_position(0,0)
                 myPublicMethod.staticCheck(screen_region)
             else:
@@ -129,7 +129,7 @@ def toDo():
             # 将修改后的图片保存到临时文件并作为新的图像进行第二次匹配
             modified_screenshot.save("temp_image.png")
             # 第二次匹配：使用涂白后的图片
-            if myPublicMethod.is_existence(earnVerify2_path, earnClaim_path,earnStart_path, temp_image="temp_image.png"):
+            if myPublicMethod.is_existence_toAcadmy(earnVerify2_path, earnClaim_path,earnStart_path, temp_image="temp_image.png"):
                 print("还有任务没做完")
             else:
                 print("任务已经全部做完")

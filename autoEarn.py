@@ -9,12 +9,14 @@ import moveToLeft
 import closeBrowser
 import moveTegram
 import earnAcadmy
+import earnSocial
+import earn_Weekly
 
 earnEarn_path = "Earn/earn_Earn.png"
 earnWeekly_path = "Earn/earn_Weekly.png"
 earnNew_path = "Earn/earn_New.png"
 earnAcademy_path= "Earn/earn_Academy.png"
-
+earnSocial_path = "Earn/earn_Socials.png"
 
 
 def main():
@@ -47,10 +49,22 @@ def main():
         # 将鼠标向下移动100个像素
         pyautogui.moveTo(current_x, current_y + 100)
         pyautogui.scroll(-250)
+        #批量做任务
+        earnAcadmy.toDo()
     time.sleep(2)
 
-    earnAcadmy.toDo()
 
+
+    # 做Social任务
+    result = foundProgram.locate_image_on_screen(earnSocial_path, 0.9)
+    if result:
+        clickPosition.click_at_position(result)
+        earnSocial.toDo()
+    time.sleep(2)
+
+    #做Weekly任务
+    pyautogui.scroll(-250)
+    earn_Weekly.toDo()
 
 
 

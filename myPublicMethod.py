@@ -40,18 +40,28 @@ def click_Start():
         result = foundProgram.locate_image_on_screen(earnStart_path,0.9,3)
         if result:
             clickPosition.click_at_position(result)
-            time.sleep(1)
+            time.sleep(1.5)
             moveToLeft.move_window_to_position(0,0)
-            break
         else:
             break
 
-def is_existence(*earnClaim_paths,temp_image):
+def is_existence_toAcadmy(*earnClaim_paths,temp_image):
     # 遍历所有路径
     for path in earnClaim_paths:
         result = myPublicMethod.locate_image_in_image(temp_image, path, 0.99)
         if result:
             # 如果某个路径找到图像，返回 True
+            print("还存在："+str(path))
+            return True
+    # 如果所有路径都没有找到图像，返回 None
+    return None
+
+def is_existence_toSocial(*earnClaim_paths):
+    # 遍历所有路径
+    for path in earnClaim_paths:
+        result = foundProgram.locate_image_on_screen(path, 0.99,3)
+        if result:
+            # 如果找到图像，返回 True
             print("还存在："+str(path))
             return True
     # 如果所有路径都没有找到图像，返回 None
