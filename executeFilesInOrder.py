@@ -1,6 +1,8 @@
 import os
 import subprocess
 import time
+
+import autoEarn
 import foundProgram
 import autoFarm
 
@@ -31,6 +33,7 @@ def run_aaa_exe_in_subfolders(parent_folder):
                     # 等待 5 秒钟
                     time.sleep(10)
                     autoFarm.main()
+                    autoEarn.main()
                     # 关闭该进程
                     if not close_process(process):
                         print(f"Failed to terminate {exe_path} after waiting.")
