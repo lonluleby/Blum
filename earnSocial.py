@@ -28,14 +28,14 @@ def toDo():
     # 截取初始屏幕
 
     while True:
-        myPublicMethod.click_Start()
+        myPublicMethod.click_Start(earnStart_path)
 
         if closeBrowser.close_all_browser_processes("chrom"):
             print("浏览器已关闭")
         else:
             print("浏览器没关")
 
-        myPublicMethod.click_Claim(screen_region)
+        myPublicMethod.click_Claim(screen_region,earnClaim_path)
 
         if myPublicMethod.is_existence_toSocial(earnClaim_path, earnStart_path):
             print("还有任务没做完")

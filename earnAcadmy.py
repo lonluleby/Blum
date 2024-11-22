@@ -68,7 +68,7 @@ def find_images_in_screen(image_verify_path):
     else:
         time.sleep(1)
         print("8888")
-        myPublicMethod.click_Start()
+        myPublicMethod.click_Start(earnStart_path)
 
     myPublicMethod.staticCheck(screen_region)
 
@@ -106,7 +106,7 @@ def toDo():
         #遍历文件，判断当前界面是否存在未做完的任务
         find_images_in_screen(image_verify_path)
         #将所有已做完任务Claim
-        myPublicMethod.click_Claim(screen_region)
+        myPublicMethod.click_Claim(screen_region,earnClaim_path)
 
         while True:
             result = foundProgram.locate_image_on_screen(earnEnd_path, 0.99, 3)

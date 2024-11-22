@@ -18,32 +18,52 @@ earnClaim_path = "Earn/earn_Claim.png"
 earnStart_path = "Earn/earn_Start.png"
 earnEnd_path = "Earn/earn_End.png"
 
-def click_Claim(screen_region):
+def click_Claim(screen_region,earnClaim_path):
     while True:
+        #查找确认按钮
         result = foundProgram.locate_image_on_screen(earnClaim_path,0.9,3)
+        #保证按钮状态都是静态的
+        staticCheck(screen_region)
         if result:
             while True:
+                #是不是存在确认后的按钮（即将消失）
                 result2 = foundProgram.locate_image_on_screen(earnEnd_path, 0.99, 3)
                 if result2:
-                    time.sleep(1)
+                    time.sleep(1)  # 有的话等一会再检测
                 else:
                     time.sleep(1)
-                    staticCheck(screen_region)
+                    #找到一个确认按钮坐标，直接点击
                     result = foundProgram.locate_image_on_screen(earnClaim_path, 0.9, 3)
                     clickPosition.click_at_position(result)
                     break
         else:
+            while True:
+                result = foundProgram.locate_image_on_screen(earnEnd_path, 0.99, 3)
+                if result:
+                    time.sleep(1)
+                else:
+                    break
             break
 
-def click_Start():
+
+def click_Start(earnStart_path):
+    last_position = None
     while True:
-        result = foundProgram.locate_image_on_screen(earnStart_path,0.9,3)
+        result = foundProgram.locate_image_on_screen(earnStart_path, 0.9, 3)
         if result:
-            clickPosition.click_at_position(result)
-            time.sleep(1.5)
-            moveToLeft.move_window_to_position(0,0)
+            left, top, width, height = result
+            x, y = pyautogui.center((left, top, width, height))  # 获取图像中心坐标
+            position = (x, y)  # 假设 result 是一个包含位置的元组 (x, y)
+            # 如果当前位置与上一次点击的位置不同，则执行点击
+            if position != last_position:
+                # 更新上一次点击的位置
+                last_position = position
+                clickPosition.click_at_position(result)
+                time.sleep(1)
+                moveToLeft.move_window_to_position(0, 0)
         else:
             break
+
 
 def is_existence_toAcadmy(*earnClaim_paths,temp_image):
     # 遍历所有路径

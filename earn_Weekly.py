@@ -34,9 +34,9 @@ def toDo():
             result = foundProgram.locate_image_on_screen(earnOpen_path, 0.9)
             if result:
                 clickPosition.click_at_position(result)
-                myPublicMethod.click_Start()
+                myPublicMethod.click_Start(earnStart_path)
                 myPublicMethod.staticCheck(screen_region)
-                myPublicMethod.click_Claim(screen_region)
+                myPublicMethod.click_Claim(screen_region,earnClaim_path)
                 if myPublicMethod.is_existence_toSocial(earnClaim_path, earnStart_path):
                     print("还有任务没做完")
                 else:
