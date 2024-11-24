@@ -6,20 +6,20 @@ import threading
 import foundProgram
 import clickPosition
 # 定义常量和配置
-LEFT, TOP, RIGHT, BOTTOM = 0, 0, 450, 750 # 检测区域
-# LEFT, TOP, RIGHT, BOTTOM =0, 0, 760, 1200  #公司电脑
-# COLOR1_MIN = np.array([98, 159, 212])  # 冰  公司电脑
-# COLOR1_MAX = np.array([102, 164, 215])
-COLOR1_MIN = np.array([83, 157, 217])  # 冰
-COLOR1_MAX = np.array([87, 160, 220])
-# COLOR2_MIN = np.array([167, 236, 89])  # 雪花 公司电脑
-# COLOR2_MAX = np.array([237, 252, 192])
-COLOR2_MIN = np.array([128, 220, 0])  # 雪花
-COLOR2_MAX = np.array([223, 255, 116])
-# COLOR3_MIN = np.array([53, 131, 149])  # 冰冻时间 公司电脑
-# COLOR3_MAX = np.array([64, 133, 156])
-COLOR3_MIN = np.array([9, 124, 145])  # 冰冻时间
-COLOR3_MAX = np.array([27, 126, 147])
+# LEFT, TOP, RIGHT, BOTTOM = 0, 0, 450, 750 # 检测区域
+LEFT, TOP, RIGHT, BOTTOM =0, 0, 760, 1200  #公司电脑
+COLOR1_MIN = np.array([98, 159, 212])  # 冰  公司电脑
+COLOR1_MAX = np.array([102, 164, 215])
+# COLOR1_MIN = np.array([83, 157, 217])  # 冰
+# COLOR1_MAX = np.array([87, 160, 220])
+COLOR2_MIN = np.array([167, 236, 89])  # 雪花 公司电脑
+COLOR2_MAX = np.array([237, 252, 192])
+# COLOR2_MIN = np.array([128, 220, 0])  # 雪花
+# COLOR2_MAX = np.array([223, 255, 116])
+COLOR3_MIN = np.array([53, 131, 149])  # 冰冻时间 公司电脑
+COLOR3_MAX = np.array([64, 133, 156])
+# COLOR3_MIN = np.array([9, 124, 145])  # 冰冻时间
+# COLOR3_MAX = np.array([27, 126, 147])
 CLICK_OFFSETS = [80, 90]  # 点击偏移量
 
 blumRewards_path = "Blum/blum_Rewards.png"

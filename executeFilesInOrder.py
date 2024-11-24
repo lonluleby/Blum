@@ -2,6 +2,8 @@ import os
 import subprocess
 import time
 
+import psutil
+
 import autoEarn
 import foundProgram
 import autoFarm
@@ -39,10 +41,9 @@ def run_aaa_exe_in_subfolders(parent_folder):
                         print(f"Failed to terminate {exe_path} after waiting.")
                     else:
                         print(f"Terminated {exe_path}, continuing with the next operation...")
+                    close_fallback()
                 except FileNotFoundError:
                     print(f"{exe_path} not found!")
-                except Exception as e:
-                    print(f"An unexpected error occurred while running {exe_path}: {e}")
             else:
                 print(f"Telegram.exe not found in {subfolder_path}")
 
@@ -92,6 +93,13 @@ def close_process(process, timeout=60):
         return False
 
     return False
+
+
+def close_fallback():
+    for proc in psutil.process_iter(['pid', 'name']):
+        if proc.info['name'] == 'Telegram.exe':  # 这里替换成程序名
+            proc.kill()  # 结束进程
+            print(f"进程 {proc.info['name']} 已被终止")
 
 
 def main(parent_folder):

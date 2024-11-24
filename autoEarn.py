@@ -63,6 +63,7 @@ def main():
     time.sleep(2)
 
     #做Weekly任务
+    clickPosition.click_at_position_offset()
     pyautogui.scroll(-250)
     earn_Weekly.toDo()
 

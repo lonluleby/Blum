@@ -10,6 +10,7 @@ import clickPosition
 import closeBrowser
 import moveToLeft
 import myPublicMethod
+import pyperclip
 
 screen_region = (0, 0, 760, 1300)
 
@@ -25,9 +26,10 @@ earnOutStart_path = "Earn/earn_OutStart.png"
 
 def write_keyword(keyword):
     result = foundProgram.locate_image_on_screen(earnKeyword_path, 0.99)
+    pyperclip.copy(keyword)
     if result:
         clickPosition.click_at_position(result)
-        pyautogui.write(keyword)
+        pyautogui.hotkey('ctrl', 'v')
         time.sleep(3)
         result = foundProgram.locate_image_on_screen(earnVerify_path, 0.99)
         if result:
@@ -51,10 +53,9 @@ def find_images_in_screen(image_verify_path):
             # 将第一次匹配的区域涂白
             modified_screenshot = myPublicMethod.remove_area_from_image(screenshot, (left, top, width, height))
             # 保存修改后的截图用于调试
-            modified_screenshot.save(str(i)+"modified_screenshot.png")
+            modified_screenshot.save("modified_screenshot.png")
             # 将修改后的图片保存到临时文件并作为新的图像进行第二次匹配
             modified_screenshot.save("temp_image.png")
-            i=i+1
             # 第二次匹配：使用涂白后的图片
             result = myPublicMethod.locate_image_in_image("temp_image.png",earnStart_path, 0.99)
             if result:

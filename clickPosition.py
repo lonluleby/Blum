@@ -29,6 +29,7 @@ def move_at_position(position):
     else:
         print("无效的位置")
 
+
 def click_at_position_offset(position,x_offset,y_offset):
     """
     模拟点击图像的中心位置
