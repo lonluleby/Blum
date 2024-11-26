@@ -83,7 +83,7 @@ def find_images_in_screen(image_verify_path):
         result = foundProgram.locate_image_on_screen(earnVerify2_path, 0.99, 3)
         if result:
             # 加载图片
-            result = foundProgram.locate_image_on_screen(image_path, 0.99,1)
+            result = foundProgram.locate_image_on_screen(image_path, 0.9999,1)
             if result:
                 keyword = os.path.splitext(os.path.basename(image_path))[0]
                 clickPosition.click_at_position_offset(result, 300, 0)
